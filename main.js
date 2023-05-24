@@ -1,5 +1,5 @@
     window.addEventListener('DOMContentLoaded',() =>{
-    axios.get('https://crudcrud.com/api/a8e70d0ea63c4f1c91f88bf8ded63bfd/productdetails')
+    axios.get('https://crudcrud.com/api/fae1b38a234e47e7882ebb3676ff7a74/productdetails')
     .then((response) =>{
         for(let i=0; i<response.data.length; i++){
             reloaddata(response.data[i])   
@@ -11,7 +11,12 @@
         for(let i=0; i<li.length; i++){
             
             x[i].onclick =() =>{
+                
                 let inputvalue = parseInt(z[i].value)
+            //    if(inputvalue.length == 0)
+            //    {alert('wrong');
+            //       return false
+            //       }
                 if(response.data[i].quantity == 0){
                     // console.log("error")
                     alert('out of stock')
@@ -26,9 +31,9 @@
                 }
                 // console.log(li[i])
                 // console.log(z[i].value)
-                console.log(inputvalue)
+                // console.log(inputvalue)
                 // console.log(i)
-                console.log('btn 1 is clicked')
+                // console.log('btn 1 is clicked')
                li[i].textContent = '[ Product=' + response.data[i].product + '] [Description=' + response.data[i].description  +'] [Price='+ response.data[i].price + '] [Quantity=' + parseInt(response.data[i].quantity-inputvalue)+ ']'
                
      const sellbtn = document.createElement('input')
@@ -39,28 +44,37 @@
      sellinput.type = 'text'
      sellbtn.value = 'sell-item'
      sellinput.placeholder = 'Add-quantities to sell'
+     sellinput.required = true
      li[i].appendChild(sellinput)
      li[i].appendChild(sellbtn)
-     console.log(response.data[i].product)
+    //  console.log(response.data[i].product)
 
-     axios.put(`https://crudcrud.com/api/a8e70d0ea63c4f1c91f88bf8ded63bfd/productdetails/${response.data[i]._id}`,{
+      axios.put(`https://crudcrud.com/api/fae1b38a234e47e7882ebb3676ff7a74/productdetails/${response.data[i]._id}`,{
         product : response.data[i].product,
         description : response.data[i].description,
         price : response.data[i].price,
         quantity: response.data[i].quantity-inputvalue
       })
-      setTimeout(location.reload(), 3000)
-      
+      .then((response) => {
+        // console.log(response)
+        location.reload()
+      })
+      .catch((erro) => {
+        console.log('erro')
+      })
                     }
         }
     })
     .catch((error) => {
         alert('something went wrong')
     })
+    
+    // return
 } )
+// location.reload()
 
 function reloaddata(obj){
-    // axios.delete(`https://crudcrud.com/api/a8e70d0ea63c4f1c91f88bf8ded63bfd/productdetails/${obj._id}`)
+    // axios.delete(`https://crudcrud.com/api/895897f35b0e4524973943b2d578c74c/productdetails/${obj._id}`)
     let parentelem = document.getElementById('lists')
 
     let childelem = document.createElement('li')
@@ -99,55 +113,36 @@ function submitting(event){
     }
     // console.log(obj)
     // showlist(obj)
-    axios.post('https://crudcrud.com/api/a8e70d0ea63c4f1c91f88bf8ded63bfd/productdetails', obj)
+    axios.post('https://crudcrud.com/api/fae1b38a234e47e7882ebb3676ff7a74/productdetails', obj)
         .then((response) => {
-            showlist(response.data)
+            // showlist(response.data)
             // console.log(response)
         })
         .catch((error) => {
             console.log(error)
         })
 
-    function showlist(obj){
-        var parentelem = document.getElementById('lists')
+        
+    // function showlist(obj){
+    //     var parentelem = document.getElementById('lists')
 
-        var childelem = document.createElement('li')
-        childelem.className='newlist'
-         childelem.textContent = '[ Product=' + obj.product + '] [Description=' + obj.description +'] [Price='+ obj.price + '] [Quantity=' + obj.quantity + ']'
+    //     var childelem = document.createElement('li')
+    //     childelem.className='newlist'
+    //      childelem.textContent = '[ Product=' + obj.product + '] [Description=' + obj.description +'] [Price='+ obj.price + '] [Quantity=' + obj.quantity + ']'
 
-         const sellbtn = document.createElement('input')
-         const sellinput = document.createElement('input')
-         sellbtn.id='sellbtn'
-         sellinput.id='sellinput'
-         sellbtn.type = 'button'
-         sellinput.type = 'text'
-         sellbtn.value = 'sell-item'
-         sellinput.placeholder = 'Add-quantity'
-         sellbtn.onclick = () => {
-            var temp = parseInt(document.getElementById('sellinput').value)
-            console.log(temp)
-            abc()
-          function abc() { 
-            if(obj.quantity == 0){
-                // console.log("error")
-                alert('out of stock')
-               return 
-            }
-            else if(obj.quantity < temp){
-                alert('please add less')
-                return 
-            }
-            else{
-                alert('confirm ?')
-            }
-            childelem.textContent = '[ Product=' + obj.product + '] [Description=' + obj.description  +'] [Price='+ obj.price + '] [Quantity=' + parseInt(obj.quantity-temp)+ ']'
-            childelem.appendChild(sellinput)
-         childelem.appendChild(sellbtn)
-        }
-         }
-         childelem.appendChild(sellinput)
-         childelem.appendChild(sellbtn)
-         parentelem.appendChild(childelem)
-
-        }
+    //      const sellbtn = document.createElement('input')
+    //      const sellinput = document.createElement('input')
+    //      sellbtn.className='sellbtn'
+    //      sellinput.className='sellinput'
+    //      sellbtn.type = 'button'
+    //      sellinput.type = 'text'
+    //      sellbtn.value = 'sell-item'
+    //      sellinput.placeholder = 'Add-quantity'
+       
+    //      childelem.appendChild(sellinput)
+    //      childelem.appendChild(sellbtn)
+    //      parentelem.appendChild(childelem)
+    
+    //     }
+    location.reload()
     }
